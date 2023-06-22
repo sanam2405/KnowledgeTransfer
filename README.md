@@ -16,10 +16,12 @@ This sums up my learnings during my Razorpay Internship.
 - Amazon Web Service 
 
     <img src = "images/aws_mindmap.png">
+
     - IAM
-        > Identity that represents a person or application that interacts with the AWS sercives and resources.
-        > The user gets access to the resources on the basis of the IAM policies which is a JSON based document.
-        > Collection of IAM users can be grouped where the policies can be inherited.
+        > *Identity that represents a person or application that interacts with the AWS sercives and resources.*
+        > *The user gets access to the resources on the basis of the IAM policies which is a JSON based document.*
+        > *Collection of IAM users can be grouped where the policies can be inherited.*
+    
     - AWS Compute
         - Instance
             - General Purpose
@@ -28,7 +30,12 @@ This sums up my learnings during my Razorpay Internship.
             - Accelerated Computing
             - Storage Optimized
         - Container
+            - Amazon ontainer Service (ECS)
+            - Amazon Elastic Kubernetes Service (EKS)
         - Serverless
+            - AWS Fargate
+            - AWS Lambda
+
     - Elastic Compute Cloud (EC2)
     - Amazon Machine Image (AMI)
     - Elastic Block Store (EBS)
