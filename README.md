@@ -39,11 +39,14 @@ This sums up my learnings during my Razorpay Internship.
     
     - AWS Compute
         - Instance
-            - General Purpose
-            - Compute Optimized
-            - Memory Optimized
-            - Accelerated Computing
-            - Storage Optimized
+            - Classification and Specification
+                - General Purpose
+                - Compute Optimized
+                - Memory Optimized
+                - Accelerated Computing
+                - Storage Optimized
+            - Elastic Compute Cloud (EC2)
+                - Amazon Machine Image (AMI)
         - Container
             - Amazon ontainer Service (ECS)
             - Amazon Elastic Kubernetes Service (EKS)
@@ -51,27 +54,60 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
+            
     <img src = "images/container_vs_vm.jpeg">
 
-    - Elastic Compute Cloud (EC2)
-    - Amazon Machine Image (AMI)
-    - Elastic Block Store (EBS)
-    - FSx
-    - Elastic File System (EFS)
-    - Elastic Beanstalk
-    - AWS Lambda
-    - Simple Storage Service (S3 Bucket)
-    - Relational Database Service (RDS) [SQL]
-    - Amazon DynamoDB [NoSQL]
-    - Amazon Route 53
 
-    - Networking
+    - AWS Storage
+        - Block Storage
+            - Instance Store (Non-persistant fast storage just like RAM)
+            - Elastic Block Store (EBS)
+                - SSD (NVMe used by Amazon)
+                - HDD
+                - Deployed at only one Availability Zone
+        - File Storage
+            - Elastic File System (EFS) (For Linux)
+                - Shared storage between multiple Availability Zone
+            - FSx (For Windows)
+        - Object Storage (Object = Data + Metadeta + Key)
+            - Simple Storage Service (S3 Bucket)
+                - Regional Service (Available in a particular region only)
+                - Global Namespace (Name/Link to the resource is globally available hence must be unique for each regions)
+
+        
+        > *EBS = SAN (Storage Area Network) while EFS = NAS (Network Attached Storage)*
+
+    
+    - AWS Databases
+
+        <img src = "images/db.png>
+
+        - Relational Database Service (RDS) [SQL]
+            - Amazon Aurora
+            - Microsoft SQL
+            - MariaDB
+            - MySQL
+        - Amazon DynamoDB [NoSQL]
+            - Key-Value Database
+            - Serverless in nature
+
+
+    - AWS Networking
         
       <img src = "images/vpc.png">
 
         - Classless Inter-Domain Routing (CIDR)
         
-        <img src = "images/vpc_cidr.png">    
+        <img src = "images/vpc_cidr.png">  
+
+        - Network Acknowledgement NACL (Stateless)
+        - Security Group  (Stateful)
+
+    - Misc. Tools
+        - Elastic Beanstalk
+        - Amazon Route 53
+
+
         
             
 
