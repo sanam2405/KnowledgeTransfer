@@ -17,6 +17,21 @@ This sums up my learnings during my Razorpay Internship.
 
     <img src = "images/aws_mindmap.png">
 
+     - Architecture
+        - AWS Cloud
+            - Region 1
+                - Availability Zone 1
+                - Availability Zone 2
+                - Availability Zone 3
+            - Region 2
+                - Availability Zone 1
+                - Availability Zone 2
+                - Availability Zone 3
+            - Region 3
+                - Availability Zone 1
+                - Availability Zone 2
+                - Availability Zone 3
+
     - IAM
         > *Identity that represents a person or application that interacts with the AWS sercives and resources.*
         > *The user gets access to the resources on the basis of the IAM policies which is a JSON based document.*
@@ -36,6 +51,8 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
+    <img src = "images/container_vs_vm.jpeg>
+
     - Elastic Compute Cloud (EC2)
     - Amazon Machine Image (AMI)
     - Elastic Block Store (EBS)
@@ -47,6 +64,16 @@ This sums up my learnings during my Razorpay Internship.
     - Relational Database Service (RDS) [SQL]
     - Amazon DynamoDB [NoSQL]
     - Amazon Route 53
+
+    - Networking
+        
+      <img src = "images/vpc.png">
+
+        - Classless Inter-Domain Routing (CIDR)
+        
+        <img src = "images/vpc_cidr.png">    
+        
+            
 
 
 ## Book Suggestions
