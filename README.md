@@ -54,9 +54,7 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
-            
     <img src = "images/container_vs_vm.jpeg">
-
 
     - AWS Storage
         - Block Storage
@@ -74,10 +72,8 @@ This sums up my learnings during my Razorpay Internship.
                 - Regional Service (Available in a particular region only)
                 - Global Namespace (Name/Link to the resource is globally available hence must be unique for each regions)
 
-        
         > *EBS = SAN (Storage Area Network) while EFS = NAS (Network Attached Storage)*
 
-    
     - AWS Databases
 
         <img src = "images/db.png">
@@ -91,7 +87,6 @@ This sums up my learnings during my Razorpay Internship.
             - Key-Value Database
             - Serverless in nature
 
-
     - AWS Networking
         
       <img src = "images/vpc.png">
@@ -103,14 +98,28 @@ This sums up my learnings during my Razorpay Internship.
         - Network Acknowledgement NACL (Stateless)
         - Security Group  (Stateful)
 
+    - Monitoring, Load Balancing and Scaling
+
+        - Amazon CloudWatch (Monitoring)
+        - Elastic Load Balancing 
+            - Application Load Balancer 
+            - Network Load Balancer
+            - Gateway Load Balancer
+            - Classic Load Balancer
+
+            > *Clients requests hit an elastic laod balancer as a single point of contact and then the requests are rerouted to multiple EC2 instances thereby balancing the traffic*  
+
+    - Scaling
+
+        - Vertical Scaling 
+            > Increase or Scale by increasing the metrics of the previous resource 
+        - Horizontal Scaling
+            > Increase or Scale by increasing the number of resources keeping individual metrics of the resources constant
+        - EC2 Auto Scaling
+        
     - Misc. Tools
         - Elastic Beanstalk
         - Amazon Route 53
-
-
-        
-            
-
 
 ## Book Suggestions
 
