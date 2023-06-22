@@ -33,7 +33,7 @@ This sums up my learnings during my Razorpay Internship.
                 - Availability Zone 3
 
     - IAM
-        > *Identity that represents a person or application that interacts with the AWS sercives and resources.*
+        > *Identity that represents a person or application that interacts with the AWS services and resources.*
         > *The user gets access to the resources on the basis of the IAM policies which is a JSON based document.*
         > *Collection of IAM users can be grouped where the policies can be inherited.*
     
@@ -48,7 +48,7 @@ This sums up my learnings during my Razorpay Internship.
             - Elastic Compute Cloud (EC2)
                 - Amazon Machine Image (AMI)
         - Container
-            - Amazon ontainer Service (ECS)
+            - Amazon Container Service (ECS)
             - Amazon Elastic Kubernetes Service (EKS)
         - Serverless
             - AWS Fargate
@@ -58,7 +58,7 @@ This sums up my learnings during my Razorpay Internship.
 
     - AWS Storage
         - Block Storage
-            - Instance Store (Non-persistant fast storage just like RAM)
+            - Instance Store (Non-persistent fast storage just like RAM)
             - Elastic Block Store (EBS)
                 - SSD (NVMe used by Amazon)
                 - HDD
@@ -67,7 +67,7 @@ This sums up my learnings during my Razorpay Internship.
             - Elastic File System (EFS) (For Linux)
                 - Shared storage between multiple Availability Zone
             - FSx (For Windows)
-        - Object Storage (Object = Data + Metadeta + Key)
+        - Object Storage (Object = Data + Metadata + Key)
             - Simple Storage Service (S3 Bucket)
                 - Regional Service (Available in a particular region only)
                 - Global Namespace (Name/Link to the resource is globally available hence must be unique for each regions)
@@ -107,7 +107,7 @@ This sums up my learnings during my Razorpay Internship.
             - Gateway Load Balancer
             - Classic Load Balancer
 
-            > *Clients requests hit an elastic laod balancer as a single point of contact and then the requests are rerouted to multiple EC2 instances thereby balancing the traffic*  
+            > *Clients requests hit an elastic load balancer as a single point of contact and then the requests are rerouted to multiple EC2 instances thereby balancing the traffic*  
 
     - Scaling
 
