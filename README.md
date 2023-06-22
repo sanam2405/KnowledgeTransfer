@@ -51,7 +51,7 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
-    <img src = "images/container_vs_vm.jpeg>
+    <img src = "images/container_vs_vm.jpeg">
 
     - Elastic Compute Cloud (EC2)
     - Amazon Machine Image (AMI)
