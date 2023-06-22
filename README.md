@@ -80,7 +80,7 @@ This sums up my learnings during my Razorpay Internship.
     
     - AWS Databases
 
-        <img src = "images/db.png>
+        <img src = "images/db.png">
 
         - Relational Database Service (RDS) [SQL]
             - Amazon Aurora
