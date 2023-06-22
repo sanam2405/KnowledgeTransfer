@@ -107,14 +107,14 @@ This sums up my learnings during my Razorpay Internship.
             - Gateway Load Balancer
             - Classic Load Balancer
 
-            > *Clients requests hit an elastic load balancer as a single point of contact and then the requests are rerouted to multiple EC2 instances thereby balancing the traffic*  
+            > *Client requests hit an elastic load balancer as a single point of contact and then the requests are rerouted to multiple EC2 instances thereby balancing the traffic*  
 
     - Scaling
 
         - Vertical Scaling 
-            > Increase or Scale by increasing the metrics of the previous resource 
+            > *Increase or Scale by increasing the metrics of the previous resource*
         - Horizontal Scaling
-            > Increase or Scale by increasing the number of resources keeping individual metrics of the resources constant
+            > *Increase or Scale by increasing the number of resources keeping individual metrics of the resources constant*
         - EC2 Auto Scaling
         
     - Misc. Tools
@@ -127,9 +127,9 @@ This sums up my learnings during my Razorpay Internship.
     - Concrete Mathematics - Knuth, Graham
     - All of Stats - Wasserman 
     - Statistical Design - Casella 
-    - Modern age statistical inference - Efron, Hastie
+    - Modern Age Statistical Inference - Efron, Hastie
     - Elements of Statistical Learning - Hastie, Tibshirani
     - Probabilistic ML - Kevin Murphy
-    - Deep learning - Bengio, Goodfellow
+    - Deep Learning - Bengio, Goodfellow
 - Murali
     - Auth N Capture - Aditya Kulkarni
