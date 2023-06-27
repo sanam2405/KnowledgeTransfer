@@ -1,3 +1,10 @@
+'''
+
+List all the IAM Users that are associated with a Root User 
+in an AWS Account
+
+'''
+
 import boto3
 
 def get_iam_users():
