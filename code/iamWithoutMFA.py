@@ -1,10 +1,9 @@
 '''
 
-List all the IAM Users that are associated with a Root User 
-in an AWS Account
+List all the IAM Users that do not have 
+Multi Factor Authentication (MFA) enabled
 
 '''
-
 import boto3
 
 def get_iam_users():
@@ -18,18 +17,19 @@ def get_iam_users():
 
     return users
 
-def print_iam_users(users):
-    print("IAM Users:")
+def list_users_without_mfa(users):
+    print("IAM Users without MFA Active:")
+
     for user in users:
         username = user['UserName']
-        userid = user['UserId']
-        print(f"Username: {username}")
-        print(f"User ID: {userid}")
-        print("------")
+        mfa_devices = boto3.client('iam').list_mfa_devices(UserName=username)['MFADevices']
+        if not mfa_devices:
+            print(f"Username: {username}")
+            print("------")
 
 def main():
     iam_users = get_iam_users()
-    print_iam_users(iam_users)
+    list_users_without_mfa(iam_users)
 
 if __name__ == '__main__':
     main()
