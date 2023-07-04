@@ -120,6 +120,52 @@ This sums up my learnings during my Razorpay Internship.
     - Misc. Tools
         - Elastic Beanstalk
         - Amazon Route 53
+    
+- Base64 Encoding
+
+    - Purpose
+
+        > Base64 encoding is a method used to convert binary data into ASCII text format. 
+        > It is widely used in computer systems, particularly for tasks such as data transmission, 
+        > file attachments in emails, and data storage.
+        >
+        > The purpose of base64 encoding is to ensure that binary data can be safely transmitted or 
+        > stored using systems that only support text-based formats. Since many systems and protocols 
+        > can only handle ASCII characters, base64 encoding allows binary data to be represented as a 
+        > string of ASCII characters. 
+        >
+        > ASCII representation uses 7-bits or 128 unique characters. However, currently UTF-8 is widely
+        > used and there are a number of other characters that needs to be represented and transmitted 
+        > base64 encoding ensures that no matter how many characters are used to represent the original 
+        > binary file, the information can be encoded in base64. 64 unique characters from [A-Za-z0-9+/]
+        > are used for encoding  
+
+    - Implementation
+        > 1. The input binary data is divided into groups of three bytes.
+        > 2. Each group of three bytes is then split into four 6-bit segments.
+        > 3. Each 6-bit segment is represented as a character using a predefined set of 64 ASCII characters. 
+        >    The specific set of characters used may vary,  but it typically includes uppercase letters, lowercase 
+        >    letters, numbers, and two additional characters, often '+' and '/'.
+        > 4. If the input binary data is not divisible by three, padding characters (usually '=') are added to the 
+        >    encoded output to ensure that the length is a multiple of four characters.
+
+    - Commands (Linux/macOS)
+        - Encoding
+        ```console
+            base64 <input_file_name> > <output_file_name>
+        ```
+        - Decoding
+        ```console
+            base64 -d <input_file_name> > <output_file_name>
+        ```
+        - Print the encoded string on the terminal
+        ```console
+            base64 <input_file_name>
+        ``` 
+        - Decoding from a encoded string
+        ```console
+            echo <encoded_string> | base64 -d > <output_file_name>
+        ```
 
 ## Book Suggestions
 
