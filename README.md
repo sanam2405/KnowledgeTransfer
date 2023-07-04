@@ -149,9 +149,11 @@ This sums up my learnings during my Razorpay Internship.
         > 4. *If the input binary data is not divisible by three, padding characters (usually '=') are added to the* 
         >    *encoded output to ensure that the length is a multiple of four characters.*
 
+        ---
         <img src="images/base64.png">
-
-        <img src="images/base64demo.png>
+        
+        ---
+        <img src="images/base64demo.png">
 
     - Commands (Linux/macOS)
         - Encoding
