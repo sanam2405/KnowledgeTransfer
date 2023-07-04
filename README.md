@@ -150,8 +150,11 @@ This sums up my learnings during my Razorpay Internship.
         >    *encoded output to ensure that the length is a multiple of four characters.*
 
         ---
+        <img src="images/base64map.png">
+         
+        ---
         <img src="images/base64.png">
-        
+
         ---
         <img src="images/base64demo.png">
 
