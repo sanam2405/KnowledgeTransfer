@@ -176,6 +176,24 @@ This sums up my learnings during my Razorpay Internship.
             echo <encoded_string> | base64 -d > <output_file_name>
         ```
 
+- Polling, Streaming and WebHooks
+
+    - Polling 
+
+        > *Continuously poll the server at regular intervals of time. This might* 
+        > *be inefficient at times since frequent redundant polls might occur*
+    
+    - Streaming
+
+        > *Establishing a continuous two-way connection with the server and*
+        > *continuously listening to the server. Puts huge load on the server*
+
+    - WebHooks
+
+        > *Communicates with the server based on the trigger for an event. Whenever*
+        > *the event is triggered, the webhook send a response thereby reducing load*
+        > *on the server* 
+
 ## Book Suggestions
 
 - Girish
