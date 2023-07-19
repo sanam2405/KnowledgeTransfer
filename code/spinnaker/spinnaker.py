@@ -17,7 +17,20 @@ def session_authentication():
     # print(spinnakerSession)
     return spinnakerSession
 
-def parseApplications(application_file_data, output_file_name):
+def getPipelineResponse(session_id,api_url):
+    # API requests for getting information about the pipeline in individual applications
+            # API requests for getting information about the pipeline in individual applications
+            application_pipeline_result = requests.get(api_url,
+            headers={"keys":"values"},
+            cookies={
+                "SESSION": session_id,
+                "keys": "values"
+            },
+            auth=(),
+        )
+            return application_pipeline_result
+
+def parseApplications(session_id, application_file_data, output_file_name):
 
 
     # Check if the file is present
@@ -52,35 +65,24 @@ def parseApplications(application_file_data, output_file_name):
             # JSON File Name
             application_pipeline_file_name = f"application_{application}_pipeline_result.json"
 
-
-
-            # API requests for getting information about the pipeline in individual applications
-            application_pipeline_result = requests.get(api_url,
-            headers={"keys":"values"},
-            cookies={
-                "SESSION": session_authentication(),
-                "keys": "values"
-            },
-            auth=(),
-        )
+            application_pipeline_result = getPipelineResponse(session_id,api_url)
 
             # Check the response status code
-            if application_pipeline_result.status_code == 200:
-                try:
-                    # Get the response content as text
-                    response_text = application_pipeline_result.text
+            while application_pipeline_result.status_code != 200:
+                application_pipeline_result = getPipelineResponse(session_id,api_url)
 
-                    # Save the response content as text to a JSON file
-                    with open(application_pipeline_file_name, 'w') as json_file:
-                        json_file.write(response_text)
+            try:
+                # Get the response content as text
+                response_text = application_pipeline_result.text
 
-                    print(f"API response saved to {application_pipeline_file_name}")
+                # Save the response content as text to a JSON file
+                with open(application_pipeline_file_name, 'w') as json_file:
+                    json_file.write(response_text)
 
-                except Exception as e:
-                    print(f"Error saving API response for {application}: {str(e)}")
+                print(f"API response saved to {application_pipeline_file_name}")
 
-            else:
-                print(f"API call for {application} failed with status code {application_pipeline_result.status_code}")
+            except Exception as e:
+                print(f"Error saving API response for {application}: {str(e)}")
 
             print("------------------------------------------------------------------------------------------------")
 
@@ -129,18 +131,23 @@ def parseApplications(application_file_data, output_file_name):
 # x----------------------------------------------------------------------------------------------------------------------------x
 # x----------------------------------------------------------------------------------------------------------------------------x
 
-def getApplications():
-
+def getApplicationResponse(session_id):
     # API requests for getting information about the applications
     application_result = requests.get("API_URL",
         headers={"keys":"values"},
             cookies={
-                "SESSION": session_authentication(),
+                "SESSION": session_id,
                 "keys": "values"
             },
             auth=(),
     )
 
+    return application_result
+
+
+def getApplications(session_id):    
+
+    application_result = getApplicationResponse(session_id)
     application_file_name = "application_result.json"
 
     # Check the response status code
@@ -167,17 +174,19 @@ def getApplications():
     application_file_data = json.load(application_file)
     application_file.close()
 
-    output_file_name = 'spannaker.csv'
+    output_file_name = 'spinnaker.csv'
     with open(output_file_name, 'w') as file:
         file.truncate(0)
 
-    parseApplications(application_file_data,output_file_name)
+    parseApplications(session_id,application_file_data,output_file_name)
     # Check if the file exists before deleting
     if os.path.exists(application_file_name):
         os.remove(application_file_name)
 
 def main():
-    getApplications()
+    session_id = session_authentication()
+    # print(session_id)
+    getApplications(session_id)
 
 if __name__ == '__main__':
     main()
