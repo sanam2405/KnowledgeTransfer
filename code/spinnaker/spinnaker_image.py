@@ -3,6 +3,12 @@ import json
 import csv
 import os
 
+# pip3 install ndg-httpsclient
+
+# pip3 install pyopenssl
+
+# pip3 install pyasn1
+
 def session_authentication():
     session = requests.session()
 
