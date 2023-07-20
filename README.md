@@ -176,6 +176,11 @@ This sums up my learnings during my Razorpay Internship.
             echo <encoded_string> | base64 -d > <output_file_name>
         ```
 
+- Hashing and Encryption
+
+    - Secure Hash Algorithm (SHA)
+    - Message Digest Algorithm (MD5) 
+
 - Polling, Streaming and WebHooks
 
     - Polling 
