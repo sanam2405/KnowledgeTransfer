@@ -122,14 +122,14 @@ def parseApplications(session_id, application_file_data, output_file_name):
                                 })
                                 success = True
 
-                        if not success:
-                            writer.writerow({
-                                'Applications': applications['name'],
-                                'Pipelines': pipelines['name'],
-                                'Stage': 'NA',
-                                'Scan Result': 'failure',
-                                'End Point': 'NA'
-                            })
+                    if not success:
+                        writer.writerow({
+                            'Applications': applications['name'],
+                            'Pipelines': pipelines['name'],
+                            'Stage': 'NA',
+                            'Scan Result': 'failure',
+                            'End Point': 'NA'
+                        })
 
                     isApplicationParsed = True
 
@@ -140,7 +140,7 @@ def parseApplications(session_id, application_file_data, output_file_name):
                 if isApplicationParsed == True:
                     break
                 if threshold_requests > threshold_requests_max:
-                    break
+                    break   
 
 
 # x----------------------------------------------------------------------------------------------------------------------------x
