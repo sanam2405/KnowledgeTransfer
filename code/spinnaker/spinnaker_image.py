@@ -3,20 +3,26 @@ import json
 import csv
 import os
 
-# pip3 install ndg-httpsclient
+'''
 
-# pip3 install pyopenssl
+Dependencies to resolve SSLError
 
-# pip3 install pyasn1
+    pip3 install ndg-httpsclient
 
+    pip3 install pyopenssl
+
+    pip3 install pyasn1
+
+'''
+    
 def session_authentication():
     session = requests.session()
 
-    # Retrieve the GitHub token from the environment
+	# Retrieve the GitHub token from the environment
     GIT_TOKEN = os.environ.get("GIT_TOKEN")    
 
-    loginUrl = "LOGIN_URL"
-    loginHeaders = {"keys":"values"}
+    loginUrl = "BASE_URL"
+    loginHeaders = {"keys":"values"}	
     res = session.get(loginUrl, headers=loginHeaders, allow_redirects=False)
     spinnakerSession = res.cookies.get("SESSION")
 
@@ -35,6 +41,18 @@ def getPipelineResponse(session_id,api_url):
     )
         return application_pipeline_result
 
+def getApplications(session_id):
+     # API requests for getting information about the applications
+    application_result = requests.get("API_URL",
+        headers={"keys":"values"},
+            cookies={
+                "SESSION": session_id,
+                "keys": "values"
+            },
+            auth=(),
+    )
+
+    return application_result
 
 def parseApplications(session_id, application_file_data, output_file_name):
 
@@ -63,7 +81,7 @@ def parseApplications(session_id, application_file_data, output_file_name):
 
             base_url = "BASE_URL"
             application = applications['name']
-            endpoint = "/END_POINT"
+            endpoint = "ENDPOINT_URL"
 
             api_url = f"{base_url}{application}{endpoint}"
             print(api_url)
@@ -71,74 +89,62 @@ def parseApplications(session_id, application_file_data, output_file_name):
             # JSON File Name
             application_pipeline_file_name = f"application_{application}_pipeline_result.json"
 
-            application_pipeline_result = getPipelineResponse(session_id,api_url)
+            threshold_requests = 0
+            threshold_requests_max = 5
+            isApplicationParsed = False
 
-            # Check the response status code
-            while application_pipeline_result.status_code != 200:
+            while True:
+
                 application_pipeline_result = getPipelineResponse(session_id,api_url)
+                threshold_requests+=1
 
-            try:
-                # Get the response content as text
-                response_text = application_pipeline_result.text
+                # Check the response status code
+                if application_pipeline_result.status_code != 200:
+                    session_id = session_authentication()
+                    continue
+                else:
+                    try:
+                        # Get the response content as text
+                        response_text = application_pipeline_result.text
 
-                # Save the response content as text to a JSON file
-                with open(application_pipeline_file_name, 'w') as json_file:
-                    json_file.write(response_text)
+                        # Save the response content as text to a JSON file
+                        with open(application_pipeline_file_name, 'w') as json_file:
+                            json_file.write(response_text)
 
-                print(f"API response saved to {application_pipeline_file_name}")
+                        print(f"API response saved to {application_pipeline_file_name}")
 
-            except Exception as e:
-                print(f"Error saving API response for {application}: {str(e)}")
+                    except Exception as e:
+                        print(f"Error saving API response for {application}: {str(e)}")
 
-            print("------------------------------------------------------------------------------------------------")
+                    print("------------------------------------------------------------------------------------------------")
 
-            application_pipeline_file = open(application_pipeline_file_name)
-            application_pipeline_data = json.load(application_pipeline_file)
-            application_pipeline_file.close()
+                    application_pipeline_file = open(application_pipeline_file_name)
+                    application_pipeline_data = json.load(application_pipeline_file)
+                    application_pipeline_file.close()
 
-            for pipelines in application_pipeline_data:
-                for stages in pipelines['stages']:
-                    if 'context' in stages and 'patchBody' in stages['context'] and type(stages['context']['patchBody']) == list:
-                            for patchBodies in stages['context']['patchBody']:
-                                    if 'spec' in patchBodies and type(patchBodies['spec']) == dict and 'template' in patchBodies['spec'] and type(patchBodies['spec']['template']) == dict and 'spec' in patchBodies['spec']['template'] and type(patchBodies['spec']['template']['spec']) == dict and 'containers' in patchBodies['spec']['template']['spec'] and type(patchBodies['spec']['template']['spec']['containers']) == list:
-                                        for containers in patchBodies['spec']['template']['spec']['containers']:
-                                                if type(containers) != dict or 'image' not in containers:
-                                                     continue
-                                                if type(containers) == dict and 'image' in containers and containers['image'].startswith("c.rzp.io"):
-                                                        writer.writerow({
-                                                        'Applications': applications['name'],
-                                                        'Pipelines': pipelines['name'],
-                                                        'Stage': stages['name'],
-                                                        'Scan Result': 'success',
-                                                        'Image': containers['image'],
-                                                        'Type': stages['type']
-                                                    })
-                                                else:
-                                                        writer.writerow({
-                                                        'Applications': applications['name'],
-                                                        'Pipelines': pipelines['name'],
-                                                        'Stage': stages['name'],
-                                                        'Scan Result': 'failure',
-                                                        'Image': containers['image'],
-                                                        'Type': stages['type']
-                                                    })
-                    if 'context' in stages and 'manifests' in stages['context'] and type(stages['context']['manifests']) == list:
-                            for manifests in stages['context']['manifests']:
-                                if 'spec' in manifests and type(manifests['spec']) == dict and 'template' in manifests['spec'] and type(manifests['spec']['template']) == dict and 'spec' in manifests['spec']['template'] and type(manifests['spec']['template']['spec']) == dict and 'containers' in manifests['spec']['template']['spec'] and type(manifests['spec']['template']['spec']['containers']) == list:
-                                    for containers in manifests['spec']['template']['spec']['containers']:
-                                                if type(containers) != dict or 'image' not in containers:
-                                                    continue
-                                                if type(containers) == dict and 'image' in containers and containers['image'].startswith("c.rzp.io"):
-                                                        writer.writerow({
-                                                            'Applications': applications['name'],
-                                                            'Pipelines': pipelines['name'],
-                                                            'Stage': stages['name'],
-                                                            'Scan Result': 'success',
-                                                            'Image': containers['image'],
-                                                            'Type': stages['type']
-                                                        })
-                                                else:
-                                                            writer.writerow({
+                
+
+                    for pipelines in application_pipeline_data:
+                        if 'stages' not in pipelines:
+                            continue
+                        for stages in pipelines['stages']:
+                            if 'patchBody' in stages and type(stages['patchBody']) == list:
+                                    for patchBodies in stages['patchBody']:
+                                            if 'spec' in patchBodies and type(patchBodies['spec']) == dict and 'template' in patchBodies['spec'] and type(patchBodies['spec']['template']) == dict and 'spec' in patchBodies['spec']['template'] and type(patchBodies['spec']['template']['spec']) == dict and 'containers' in patchBodies['spec']['template']['spec'] and type(patchBodies['spec']['template']['spec']['containers']) == list:
+                                                for containers in patchBodies['spec']['template']['spec']['containers']:
+                                                        if type(containers) != dict or 'image' not in containers:
+                                                            continue
+                                                        if type(containers) == dict and 'image' in containers and containers['image'].startswith("c.rzp.io"):
+                                                                writer.writerow({
+                                                                'Applications': applications['name'],
+                                                                'Pipelines': pipelines['name'],
+                                                                'Stage': stages['name'],
+                                                                'Scan Result': 'success',
+                                                                'Image': containers['image'],
+                                                                'Type': stages['type']
+                                                            })
+                                                        else:
+                                                                writer.writerow({
                                                                 'Applications': applications['name'],
                                                                 'Pipelines': pipelines['name'],
                                                                 'Stage': stages['name'],
@@ -146,56 +152,51 @@ def parseApplications(session_id, application_file_data, output_file_name):
                                                                 'Image': containers['image'],
                                                                 'Type': stages['type']
                                                             })
-                    if 'outputs' in stages and 'manifests' in stages['outputs'] and type(stages['outputs']['manifests']) == list:
-                            for manifests in stages['outputs']['manifests']:
-                                if 'spec' in manifests and type(manifests['spec']) == dict and 'template' in manifests['spec'] and type(manifests['spec']['template']) == dict and 'spec' in manifests['spec']['template'] and type(manifests['spec']['template']['spec']) == dict and 'containers' in manifests['spec']['template']['spec'] and type(manifests['spec']['template']['spec']['containers']) == list:
-                                    for containers in manifests['spec']['template']['spec']['containers']:
-                                            if type(containers) != dict or 'image' not in containers:
-                                                continue
-                                            if type(containers) == dict and 'image' in containers and containers['image'].startswith("c.rzp.io"):
-                                                writer.writerow({
-                                                    'Applications': applications['name'],
-                                                    'Pipelines': pipelines['name'],
-                                                    'Stage': stages['name'],
-                                                    'Scan Result': 'success',
-                                                    'Image': containers['image'],
-                                                    'Type': stages['type']
-                                                })
-                                            else:
-                                                writer.writerow({
-                                                    'Applications': applications['name'],
-                                                    'Pipelines': pipelines['name'],
-                                                    'Stage': stages['name'],
-                                                    'Scan Result': 'failure',
-                                                    'Image': containers['image'],
-                                                    'Type': stages['type']
-                                                })
+                            if 'manifests' in stages and type(stages['manifests']) == list:
+                                    for manifests in stages['manifests']:
+                                        if 'spec' in manifests and type(manifests['spec']) == dict and 'template' in manifests['spec'] and type(manifests['spec']['template']) == dict and 'spec' in manifests['spec']['template'] and type(manifests['spec']['template']['spec']) == dict and 'containers' in manifests['spec']['template']['spec'] and type(manifests['spec']['template']['spec']['containers']) == list:
+                                            for containers in manifests['spec']['template']['spec']['containers']:
+                                                        if type(containers) != dict or 'image' not in containers:
+                                                            continue
+                                                        if type(containers) == dict and 'image' in containers and containers['image'].startswith("c.rzp.io"):
+                                                                writer.writerow({
+                                                                    'Applications': applications['name'],
+                                                                    'Pipelines': pipelines['name'],
+                                                                    'Stage': stages['name'],
+                                                                    'Scan Result': 'success',
+                                                                    'Image': containers['image'],
+                                                                    'Type': stages['type']
+                                                                })
+                                                        else:
+                                                                    writer.writerow({
+                                                                        'Applications': applications['name'],
+                                                                        'Pipelines': pipelines['name'],
+                                                                        'Stage': stages['name'],
+                                                                        'Scan Result': 'failure',
+                                                                        'Image': containers['image'],
+                                                                        'Type': stages['type']
+                                                                    })
+                            
 
 
-            # Check if the file exists before deleting
-            if os.path.exists(application_pipeline_file_name):
-                os.remove(application_pipeline_file_name)
+                    isApplicationParsed = True
 
-# x----------------------------------------------------------------------------------------------------------------------------x
-# x----------------------------------------------------------------------------------------------------------------------------x
+                    # Check if the file exists before deleting
+                    if os.path.exists(application_pipeline_file_name):
+                        os.remove(application_pipeline_file_name)
 
-def getApplicationResponse(session_id):
-    # API requests for getting information about the applications
-    application_result = requests.get("API_URL",
-        headers={"keys":"values"},
-            cookies={
-                "SESSION": session_id,
-                "keys": "values"
-            },
-            auth=(),
-    )
+                if isApplicationParsed == True:
+                    break
+                if threshold_requests > threshold_requests_max:
+                    break
 
-    return application_result
+# def getApplications(session_id):    
 
+    
 
-def getApplications(session_id):    
-
-    application_result = getApplicationResponse(session_id)
+def main():
+    session_id = session_authentication()
+    application_result = getApplications(session_id)
     application_file_name = "application_result.json"
 
     # Check the response status code
@@ -231,10 +232,5 @@ def getApplications(session_id):
     if os.path.exists(application_file_name):
         os.remove(application_file_name)
 
-def main():
-    session_id = session_authentication()
-    # print(session_id)
-    getApplications(session_id)
-
 if __name__ == '__main__':
-    main()
+    main()  
