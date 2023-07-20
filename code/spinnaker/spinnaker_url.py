@@ -64,67 +64,83 @@ def parseApplications(session_id, application_file_data, output_file_name):
             # JSON File Name
             application_pipeline_file_name = f"application_{application}_pipeline_result.json"
 
-            application_pipeline_result = getPipelineResponse(session_id,api_url)
+            threshold_requests = 0
+            threshold_requests_max = 5
+            isApplicationParsed = False
 
-            # Check the response status code
-            while application_pipeline_result.status_code != 200:
+            while True:
+
                 application_pipeline_result = getPipelineResponse(session_id,api_url)
+                threshold_requests+=1
 
-            try:
-                # Get the response content as text
-                response_text = application_pipeline_result.text
+                # Check the response status code
+                if application_pipeline_result.status_code != 200:
+                    session_id = session_authentication()
+                    continue
+                else:
+                    try:
+                        # Get the response content as text
+                        response_text = application_pipeline_result.text
 
-                # Save the response content as text to a JSON file
-                with open(application_pipeline_file_name, 'w') as json_file:
-                    json_file.write(response_text)
+                        # Save the response content as text to a JSON file
+                        with open(application_pipeline_file_name, 'w') as json_file:
+                            json_file.write(response_text)
 
-                print(f"API response saved to {application_pipeline_file_name}")
+                        print(f"API response saved to {application_pipeline_file_name}")
 
-            except Exception as e:
-                print(f"Error saving API response for {application}: {str(e)}")
-
-            print("------------------------------------------------------------------------------------------------")
-
-            application_pipeline_file = open(application_pipeline_file_name)
-            application_pipeline_data = json.load(application_pipeline_file)
-            application_pipeline_file.close()
-
+                    except Exception as e:
+                        print(f"Error saving API response for {application}: {str(e)}")
 
 
-            for pipelines in application_pipeline_data:
-                success = False
-                for stages in pipelines['stages']:
-                    if 'url' in stages['context'] and "validate-build" in stages['context']['url']:
-                        writer.writerow({
-                            'Applications': applications['name'],
-                            'Pipelines': pipelines['name'],
-                            'Stage': stages['name'],
-                            'Scan Result': 'success',
-                            'End Point': 'validate-build'
-                        })
-                        success = True
-                    if 'url' in stages['context'] and "validate-check-runs" in stages['context']['url']:
-                        writer.writerow({
-                            'Applications': applications['name'],
-                            'Pipelines': pipelines['name'],
-                            'Stage': stages['name'],
-                            'Scan Result': 'success',
-                            'End Point': 'validate-check-runs'
-                        })
-                        success = True
+                    print("------------------------------------------------------------------------------------------------")
 
-                if not success:
-                    writer.writerow({
-                        'Applications': applications['name'],
-                        'Pipelines': pipelines['name'],
-                        'Stage': 'NA',
-                        'Scan Result': 'failure',
-                        'End Point': 'NA'
-                    })
+                    application_pipeline_file = open(application_pipeline_file_name)
+                    application_pipeline_data = json.load(application_pipeline_file)
+                    application_pipeline_file.close()
 
-            # Check if the file exists before deleting
-            if os.path.exists(application_pipeline_file_name):
-                os.remove(application_pipeline_file_name)
+
+
+                    for pipelines in application_pipeline_data:
+                        success = False
+                        for stages in pipelines['stages']:
+                            if 'url' in stages['context'] and "validate-build" in stages['context']['url']:
+                                writer.writerow({
+                                    'Applications': applications['name'],
+                                    'Pipelines': pipelines['name'],
+                                    'Stage': stages['name'],
+                                    'Scan Result': 'success',
+                                    'End Point': 'validate-build'
+                                })
+                                success = True
+                            if 'url' in stages['context'] and "validate-check-runs" in stages['context']['url']:
+                                writer.writerow({
+                                    'Applications': applications['name'],
+                                    'Pipelines': pipelines['name'],
+                                    'Stage': stages['name'],
+                                    'Scan Result': 'success',
+                                    'End Point': 'validate-check-runs'
+                                })
+                                success = True
+
+                        if not success:
+                            writer.writerow({
+                                'Applications': applications['name'],
+                                'Pipelines': pipelines['name'],
+                                'Stage': 'NA',
+                                'Scan Result': 'failure',
+                                'End Point': 'NA'
+                            })
+
+                    isApplicationParsed = True
+
+                    # Check if the file exists before deleting
+                    if os.path.exists(application_pipeline_file_name):
+                        os.remove(application_pipeline_file_name)
+
+                if isApplicationParsed == True:
+                    break
+                if threshold_requests > threshold_requests_max:
+                    break
 
 
 # x----------------------------------------------------------------------------------------------------------------------------x
