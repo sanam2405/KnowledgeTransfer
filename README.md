@@ -47,6 +47,7 @@ This sums up my learnings during my Razorpay Internship.
         - Configuring a Lambda function (suppose deployed in Account A) to assume a role from another AWS account (suppose in Account B)
 
             > *ARN of the __role to be assumed__ in the Account B should be configured in the __execution role__ of the Lambda in Account A as an __in-line policy__*
+            >
             > *ARN of the __execution role__ of the Lambda in Account A should be configured in the __Trust Policy__ of the __role to be assumed__ in the Account B* 
     
     - AWS Compute
