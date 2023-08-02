@@ -36,6 +36,19 @@ This sums up my learnings during my Razorpay Internship.
         > *Identity that represents a person or application that interacts with the AWS services and resources.*
         > *The user gets access to the resources on the basis of the IAM policies which is a JSON based document.*
         > *Collection of IAM users can be grouped where the policies can be inherited.*
+
+       <img src = "images/iam_roles.png">
+
+        - User Role - IAM User Role defines the access to the resources and services that the user has
+
+        - Service Role - IAM Service Role defines the services that can be accessed by a particular AWS service. Service like EC2, S3, DynamoDB can be accessed by a Lambda if the
+        service role of the Lambda contains the policies to access the EC2, S3, DynamoDB services
+
+        - Configuring a Lambda function (suppose deployed in Account A) to assume a role from another AWS account (suppose in Account B)
+
+            > *ARN of the __role to be assumed__ in the Account B should be configured in the __execution role__ of the Lambda in Account A as an __in-line policy__*
+            >
+            > *ARN of the __execution role__ of the Lambda in Account A should be configured in the __Trust Policy__ of the __role to be assumed__ in the Account B* 
     
     - AWS Compute
         - Instance
@@ -53,6 +66,8 @@ This sums up my learnings during my Razorpay Internship.
         - Serverless
             - AWS Fargate
             - AWS Lambda
+
+            <img src = "images/iam_roles_visual">
 
     <img src = "images/container_vs_vm.jpeg">
 
