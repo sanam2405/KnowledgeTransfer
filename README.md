@@ -67,7 +67,7 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
-            <img src = "images/iam_roles_visual">
+            <img src = "images/iam_roles_visual.png">
 
     <img src = "images/container_vs_vm.jpeg">
 
