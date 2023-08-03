@@ -1,6 +1,28 @@
-# KnowledgeTransfer
+# [KnowledgeTransfer](https://github.com/sanam2405/KnowledgeTransfer) 
 
-This sums up my learnings during my Razorpay Internship.
+## [Manas Pratim Biswas](https://github.com/sanam2405) (SDE Intern, DevSecOps@[Razorpay](https://razorpay.com/))
+
+This sums up my workflows and learnings during my Razorpay Internship.
+
+## Workflow Diagrams
+
+- __Cloud Automation and Remediation__
+
+    <img src = "images/lambda_idea.png">
+    
+    <img src = "images/lambda_workflow.png">
+
+<!-- | Lambda Idea                           | Lambda Workflow                           |
+| --------------------------------------|-------------------------------------------|
+| <img src = "images/lambda_idea.png">  | <img src = "images/lambda_workflow.png">  | -->
+
+- __Scanning all the Stages of each Pipelines of Spinnaker Applications for Security Checks__
+
+    <img src = "images/spinnaker_visual.png">
+
+- __Security Dashboard Migration from Looker to Superset__
+
+    <img src = "images/looker_migration_visual.png">
 
 
 ## Learning
@@ -9,9 +31,11 @@ This sums up my learnings during my Razorpay Internship.
 
 - GitHub Actions & GitHub Marketplace
 
-- Docker
+- Dependabot, Semgrep, Trivy, Pingsafe
 
-- Kubernetes
+- Docker, Kubernetes
+
+- Looker, Superset, Querybook, Postman
 
 - Amazon Web Service 
 
@@ -49,6 +73,9 @@ This sums up my learnings during my Razorpay Internship.
             > *ARN of the __role to be assumed__ in the Account B should be configured in the __execution role__ of the Lambda in Account A as an __in-line policy__*
             >
             > *ARN of the __execution role__ of the Lambda in Account A should be configured in the __Trust Policy__ of the __role to be assumed__ in the Account B* 
+        
+       <img src = "images/iam_roles_visual.png">
+        
     
     - AWS Compute
         - Instance
@@ -67,7 +94,6 @@ This sums up my learnings during my Razorpay Internship.
             - AWS Fargate
             - AWS Lambda
 
-            <img src = "images/iam_roles_visual.png">
 
     <img src = "images/container_vs_vm.jpeg">
 
