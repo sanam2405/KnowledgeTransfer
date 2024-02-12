@@ -2,7 +2,7 @@ import boto3
 import os
 from common import *
 
-'''
+"""
 input:
 pingsafe_event - list of the following items
 {
@@ -10,12 +10,14 @@ pingsafe_event - list of the following items
     'resourceID': '<resource_id>'
 }
 result: enable deletion protection if it was disabled previously
-'''
+"""
+
+
 def remediate_elb_deletion_protection_not_enabled(pingsafe_event, role_to_assume):
 
-     # Get the AWS Account Name
-    accountname = pingsafe_event[0]['accountTitle'].replace('-', '_')
-    
+    # Get the AWS Account Name
+    accountname = pingsafe_event[0]["accountTitle"].replace("-", "_")
+
     # List to store the ARNs of modified ELBs
     modified_resources = []
 
@@ -29,10 +31,10 @@ def remediate_elb_deletion_protection_not_enabled(pingsafe_event, role_to_assume
                 response = elbv2_client.describe_load_balancers(
                     Names=[elb_data["resourceId"]]
                 )
-                elb_description = response['LoadBalancers'][0]
+                elb_description = response["LoadBalancers"][0]
 
                 # Get the Load Balancer ARN from the response
-                load_balancer_arn = elb_description['LoadBalancerArn']
+                load_balancer_arn = elb_description["LoadBalancerArn"]
 
                 print("Trying to modify ELB:", load_balancer_arn)
 
@@ -40,11 +42,8 @@ def remediate_elb_deletion_protection_not_enabled(pingsafe_event, role_to_assume
                 elbv2_client.modify_load_balancer_attributes(
                     LoadBalancerArn=load_balancer_arn,
                     Attributes=[
-                        {
-                            "Key": "deletion_protection.enabled",
-                            "Value": "true"
-                        }
-                    ]
+                        {"Key": "deletion_protection.enabled", "Value": "true"}
+                    ],
                 )
 
                 # Add the ARN of the modified ELB to the modified_resources list
@@ -56,4 +55,7 @@ def remediate_elb_deletion_protection_not_enabled(pingsafe_event, role_to_assume
 
     # Check if any ELBs were modified and send the list as a Slack message
     if len(modified_resources) > 0:
-        send_slack('{}: Enabled ELB Deletion Protection on:\n'.format(accountname) + format(modified_resources))
+        send_slack(
+            "{}: Enabled ELB Deletion Protection on:\n".format(accountname)
+            + format(modified_resources)
+        )
